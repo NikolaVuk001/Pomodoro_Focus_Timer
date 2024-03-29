@@ -13,7 +13,8 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(Pomodor_Qt_FrameworkApp src/main.cpp)
+qt_add_executable(Pomodor_Qt_FrameworkApp src/main.cpp
+    timer.h timer.cpp)
 
 qt_add_resources(Pomodor_Qt_FrameworkApp "configuration"
     PREFIX "/"
