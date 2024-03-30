@@ -12,8 +12,7 @@ int main(int argc, char *argv[])
 {
     set_qt_environment();
 
-    QGuiApplication app(argc, argv);
-
+    QGuiApplication app(argc, argv);    
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/qt/qml/Main/main.qml"_qs);
     QObject::connect(

@@ -4,46 +4,65 @@ import QtQuick.Controls 2.15
 
 Item{
     id: root
-    property alias mouseArea: mouseArea
+    property alias timer: timer
+    property alias minutes: txtMin.text
+    property alias seconds: txtSec.text
+
 
 
 
     Timer {
         id: timer
         interval: 1000
-        running: true
-        repeat: true
-        onTriggered: mouseArea.clicked(0);
-    }
-    
-    
-    MouseArea {
-        id:mouseArea
-        anchors.fill: parent
-
-        
-        onClicked: {
-            if(txtSec.text === "00")
+        running: false
+        repeat: true        
+        onTriggered: {
+            if(txtMin.text === "00" && txtSec.text === "00")
             {
-                txtSec.text = "59"
-
                 txtMinBack.text = txtMin.text
-                txtMin.text = (parseInt(txtMin.text) - 1)
+                txtMin.text = 25
+                txtSec.text = "00"
                 rotatMin.angle -= 360
+                timer.running = false;
             }
             else {
-                if(parseInt(txtSec.text) <= 10)
+                if(txtSec.text === "00")
                 {
+                    txtMinBack.text = txtMin.text
+                    if(parseInt(txtMin.text) <= 10)
+                    {
+                        txtMin.text = "0" + (parseInt(txtMin.text) - 1)
+                    }
+                    else
+                    {
+                        txtMin.text = parseInt(txtMin.text) - 1
+                    }
 
-                    txtSec.text = "0" + (parseInt(txtSec.text) - 1)
+                    txtSec.text = "59"
+
+
+                    rotatMin.angle -= 360
                 }
                 else {
+                    if(parseInt(txtSec.text) <= 10)
+                    {
 
-                    txtSec.text = parseInt(txtSec.text) - 1
+                        txtSec.text = "0" + (parseInt(txtSec.text) - 1)
+                    }
+                    else {
+
+                        txtSec.text = parseInt(txtSec.text) - 1
+                    }
                 }
+
             }
         }
+
+
     }
+    
+    
+
 
 
     /*-------------------------------------Sec Digit---------------------------------------------------------*/
