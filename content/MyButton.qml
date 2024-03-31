@@ -5,6 +5,9 @@ import QtQuick.Controls.Material
 
 
 Button {
+    property color btnColor: Material.background
+
+
     id: button
     height: 75
     width: 200

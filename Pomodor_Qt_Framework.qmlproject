@@ -1,8 +1,8 @@
 import QmlProject
 
 Project {
-    mainFile: "content/App.qml"
-    mainUiFile: "content/Screen01.ui.qml"
+    mainFile: "content.qml"
+    mainUiFile: ""
 
     /* Include .qml, .js, and image files from current directory and subdirectories */
     QmlFiles {

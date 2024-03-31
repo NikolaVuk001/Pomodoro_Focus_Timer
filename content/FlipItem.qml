@@ -24,6 +24,7 @@ Item{
                 txtSec.text = "00"
                 rotatMin.angle -= 360
                 timer.running = false;
+                //emit Signal Pomodoru
             }
             else {
                 if(txtSec.text === "00")
