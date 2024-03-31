@@ -6,6 +6,7 @@ import Pomodor_Qt_Framework
 import QtQuick.Controls
 import QtQuick.Studio.Effects
 import QtQuick.Layouts
+import Qt.labs.platform
 
 
 import com.pomodoro.Task 1.0
@@ -20,6 +21,18 @@ Window {
     height: Constants.height
     visible: true
     color: "#838a59"
+
+    SystemTrayIcon {
+        id: sysTrayIcon
+        visible: true
+           icon.source: "qrc:/Images/TimerIcon.png"
+
+           onActivated: {
+               window.show()
+               window.raise()
+               window.requestActivate()
+           }
+    }
 
 
 
@@ -147,9 +160,12 @@ Window {
                             if(clockItem.state === "StudyTime") {
                                 lblTime.text = "Study Time"
                                 lblTime.visible = true
+                                sysTrayIcon.showMessage("Its Focus Time", "Time To Study")
+
                             } if(clockItem.state === "BreakTime") {
                                 lblTime.text = "Break Time"
                                 lblTime.visible = true
+                                sysTrayIcon.showMessage("Its Break Time", "Time For A Break")
                             } else {
                                 lblTime.visible = false
                             }
