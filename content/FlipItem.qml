@@ -19,13 +19,7 @@ Item{
         }
     ]
 
-
-
-
     Timer {
-
-
-
         id: timer
         interval: 1000
         running: false
@@ -46,15 +40,6 @@ Item{
                         rotatMin.angle -= 360
                         timer.running = false;
                     }
-
-
-
-                // txtMin.text = 25
-                // txtSec.text = "00"
-                // rotatMin.angle -= 360
-                // timer.running = false;
-
-
             }
             else {
                 if(txtSec.text === "00")

@@ -56,7 +56,6 @@ public:
             QList<Task*> emptyList;
             writeJson(emptyList,path);
             QJsonDocument emptyDoc;
-            qInfo() << emptyDoc;
             return emptyDoc;
         }
 

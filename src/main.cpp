@@ -47,5 +47,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    return app.exec();
+    int a = app.exec();
+
+    taskList.~TaskList();
+
+    return a;
 }

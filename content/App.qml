@@ -89,15 +89,20 @@ Window {
                 anchors.bottomMargin: 50
                 anchors.left: outerClock.left
                 anchors.leftMargin: 250
-                onTextChanged:
-                    NumberAnimation {
-                    target: lblTime
-                    property: "opacity"
-                    from: 0.0
-                    to: 1.0
-                    duration: 200
-                    easing.type: Easing.InOutQuad
-                }
+                onTextChanged: opacityAnimation.running = true
+
+                NumberAnimation {
+                id: opacityAnimation
+                target: lblTime
+                property: "opacity"
+                from: 0.0
+                to: 1.0
+                duration: 200
+                easing.type: Easing.InOutQuad
+                running: false
+            }
+
+
             }
 
 
@@ -253,7 +258,7 @@ Window {
                     width: 200
                     height: 75
                     onClicked: {
-                        visible = false
+                        btnPause.visible = false
                         btnResume.visible = true
                         clockItem.timer.stop()
                     }
@@ -267,7 +272,7 @@ Window {
                     width: 200
                     height: 75
                     onClicked: {
-                        visible = false
+                        btnResume.visible = false
                         btnPause.visible = true
                         clockItem.timer.start()
 
@@ -365,16 +370,14 @@ Window {
                     Rectangle {
                         id: rectTasks
                         color: "transparent"
-                        // anchors.verticalCenter: lblTasks.verticalCenter
-                        // anchors.horizontalCenter: lblTasks.horizontalCenter
                         anchors.left: parent.left
                         anchors.right: parent.right
                         anchors.top: lblTasks.bottom
                         anchors.bottom: parent.bottom
-                        anchors.leftMargin: /*-262*/ 20
-                        anchors.rightMargin: /*-492*/ 20
-                        anchors.topMargin: /*88*/ 80
-                        anchors.bottomMargin: /*-860*/ 0
+                        anchors.leftMargin:  20
+                        anchors.rightMargin:  20
+                        anchors.topMargin:  80
+                        anchors.bottomMargin:  0
 
 
 
@@ -520,27 +523,9 @@ Window {
 
                             onClicked: taskList.appendTask()
 
-
-
                         }
 
-
-
-
                     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 }
@@ -549,14 +534,6 @@ Window {
             }
         }
     }
-
-
-
-
-
-
-
-
 
 }
 
