@@ -16,6 +16,7 @@ endif()
 qt_add_executable(Pomodor_Qt_FrameworkApp src/main.cpp
     tasklist.h tasklist.cpp
     task.h task.cpp
+    json_converter.h json_converter.cpp
 
 
 )

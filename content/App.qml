@@ -61,6 +61,35 @@ Window {
             anchors.bottomMargin: -1080
 
 
+            Label {
+                id: lblTime
+                visible: false
+                color: "#f9f4cc"
+                text: ""
+                wrapMode: Text.Wrap
+                textFormat: Text.StyledText
+                font.italic: true
+                font.bold: true
+                font.underline: false
+                font.pointSize: 55
+                anchors.bottom: outerClock.top
+                anchors.bottomMargin: 50
+                anchors.left: outerClock.left
+                anchors.leftMargin: 250
+                onTextChanged:
+                    NumberAnimation {
+                    target: lblTime
+                    property: "opacity"
+                    from: 0.0
+                    to: 1.0
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+
+
+
             Rectangle {
                 id: outerClock
                 width: 1121
@@ -114,7 +143,17 @@ Window {
                         width: 400
                         height: 250
                         anchors.verticalCenter: parent.verticalCenter
-
+                        onStateChanged: {
+                            if(clockItem.state === "StudyTime") {
+                                lblTime.text = "Study Time"
+                                lblTime.visible = true
+                            } if(clockItem.state === "BreakTime") {
+                                lblTime.text = "Break Time"
+                                lblTime.visible = true
+                            } else {
+                                lblTime.visible = false
+                            }
+                        }
                     }
 
 
@@ -176,6 +215,8 @@ Window {
                         clockItem.timer.start()
                         rowButtonsDefault.visible = false
                         rowButtonsStarted.visible = true
+                        clockItem.state = "StudyTime"
+                        lblTime.visible = true
                     }
                 }
             }
@@ -229,6 +270,7 @@ Window {
                         clockItem.timer.stop()
                         rowButtonsDefault.visible = true
                         rowButtonsStarted.visible = false
+                        lblTime.visible = false
 
                     }
                 }
@@ -340,10 +382,10 @@ Window {
 
                                 CheckBox {
                                         id: control
-                                        checked: model.finished                                       
+                                        checked: model.finished
                                         indicator: Rectangle {
-                                            implicitWidth: 35
-                                            implicitHeight: 35
+                                            implicitWidth: 40
+                                            implicitHeight: 40
                                             x: control.leftPadding
                                             y: parent.height / 2 - height / 2
                                             radius: 3
@@ -351,22 +393,40 @@ Window {
 
 
                                             Text {
-                                                width: 14
-                                                height: 14
+                                                width: 20
+                                                height: 20
                                                 x: 0
                                                 y: -10
                                                 text: "✔"
-                                                font.pointSize: 18
+                                                font.pointSize: 20
                                                 color: control.down ? "#17a81a" : "#21be2b"
-                                                visible: control.checked                                                
+                                                visible: control.checked
                                             }
                                         }
                                         onClicked: model.finished = checked
                                     }
                                 TextField {
+
+                                    font.pointSize: 15
                                     Layout.fillWidth: true
+                                    color: "#4e483a"
+                                    wrapMode: Text.Wrap
+                                    font.italic: true
+                                    font.bold: true
+                                    font.underline: false
+
                                     text: model.description
+
                                     onEditingFinished: model.description = text
+                                    background: Rectangle {
+                                        color: "white"
+                                        anchors.fill: parent
+                                        border.color: "#784e0b"
+                                        border.width: 1
+                                        radius: 15
+                                        opacity: 0.5
+
+                                    }
                                 }
                             }
                         }

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDate>
+#include <QJsonObject>
 
 class Task : public QObject
 {
@@ -15,6 +16,12 @@ public:
 
     QString name() const;
     void setName(const QString &newName);
+
+    QDate date() const;
+
+    QJsonObject toJson() const;
+
+    void setDate(const QDate &newDate);
 
 signals:
 

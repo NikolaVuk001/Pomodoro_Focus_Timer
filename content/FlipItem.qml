@@ -7,11 +7,25 @@ Item{
     property alias timer: timer
     property alias minutes: txtMin.text
     property alias seconds: txtSec.text
+    property alias state: root.state
+
+    states: [
+        State {
+            name: "StudyTime"
+
+        },
+        State {
+            name: "BreakTime"
+        }
+    ]
 
 
 
 
     Timer {
+
+
+
         id: timer
         interval: 1000
         running: false
@@ -20,11 +34,27 @@ Item{
             if(txtMin.text === "00" && txtSec.text === "00")
             {
                 txtMinBack.text = txtMin.text
-                txtMin.text = 25
-                txtSec.text = "00"
-                rotatMin.angle -= 360
-                timer.running = false;
-                //emit Signal Pomodoru
+                if(root.state === "StudyTime") {
+                    txtMin.text = "05"
+                    txtSec.text = "00"
+                    // rotatMin.angle -= 360
+                    timer.running = true;
+                    root.state = "BreakTime";
+                } else {
+                        txtMin.text = 25
+                        txtSec.text = "00"
+                        rotatMin.angle -= 360
+                        timer.running = false;
+                    }
+
+
+
+                // txtMin.text = 25
+                // txtSec.text = "00"
+                // rotatMin.angle -= 360
+                // timer.running = false;
+
+
             }
             else {
                 if(txtSec.text === "00")

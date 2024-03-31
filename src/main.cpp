@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+
 #include "app_environment.h"
 #include "import_qml_components_plugins.h"
 #include "import_qml_plugins.h"
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<TaskModel>("com.pomodoro.Task",1,0,"TaskModel");
     qmlRegisterUncreatableType<TaskList>("com.pomodoro.Task",1,0,"TaskList",QStringLiteral("TaskList should not be created in QML"));
 
-    TaskList taskList;
+    TaskList taskList(&app);
 
     QQmlApplicationEngine engine;
 
