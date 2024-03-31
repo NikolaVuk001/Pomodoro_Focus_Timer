@@ -20,5 +20,6 @@ Features To Be Added:
   
 
 Pictures of the project:
-  ![alt text](https://raw.githubusercontent.com/NikolaVuk001/Pomodoro_Focus_Timer/master/UI_Images/Image1.png)
-  ![alt text](https://raw.githubusercontent.com/NikolaVuk001/Pomodoro_Focus_Timer/master/UI_Images/Image2.png)  
+  ![alt text](https://raw.githubusercontent.com/NikolaVuk001/Pomodoro_Focus_Timer/main/UI%20Images/Image1.png)
+  
+  ![alt text](https://raw.githubusercontent.com/NikolaVuk001/Pomodoro_Focus_Timer/main/UI%20Images/Image2.png)  
