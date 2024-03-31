@@ -5,6 +5,12 @@ import QtQuick 6.2
 import Pomodor_Qt_Framework
 import QtQuick.Controls
 import QtQuick.Studio.Effects
+import QtQuick.Layouts
+
+
+import com.pomodoro.Task 1.0
+
+
 
 
 
@@ -44,7 +50,7 @@ Window {
         }
         Rectangle{
             id: middleCol
-            color: "transparent"            
+            color: "transparent"
             anchors.left: leftCol.right
             anchors.right: leftCol.left
             anchors.top: leftCol.bottom
@@ -183,6 +189,7 @@ Window {
                 anchors.topMargin: 61
                 spacing: 50
 
+
                 MyButton {
                     id: btnPause
                     text: "Pause"
@@ -277,25 +284,177 @@ Window {
                     Label {
                         id: lblTasks
                         color: "#4e483a"
-                        text: qsTr("Tasks")
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        anchors.leftMargin: 25
-                        anchors.rightMargin: 14
-                        anchors.topMargin: 18
+                        text: qsTr("Today's Tasks")
                         wrapMode: Text.Wrap
                         textFormat: Text.StyledText
                         font.italic: true
                         font.bold: true
                         font.underline: false
-                        font.pointSize: 44
+                        font.pointSize: 34
+                    }
+
+
+                    ToolSeparator {
+                        id: toolSeparator
+                        y: 97
+                        height: 19
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 10
+                    }
+
+                    Rectangle {
+                        id: rectTasks
+                        color: "transparent"
+                        // anchors.verticalCenter: lblTasks.verticalCenter
+                        // anchors.horizontalCenter: lblTasks.horizontalCenter
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: lblTasks.bottom
+                        anchors.bottom: parent.bottom
+                        anchors.leftMargin: /*-262*/ 20
+                        anchors.rightMargin: /*-492*/ 20
+                        anchors.topMargin: /*88*/ 80
+                        anchors.bottomMargin: /*-860*/ 0
+
+
+
+
+
+
+                        ListView {
+                            implicitWidth: parent.width
+                            implicitHeight: parent.height
+                            clip: true
+                            anchors.fill: parent
+                            model: TaskModel {
+                                list: taskList
+
+                            }
+
+                            spacing: 30
+                            delegate: RowLayout {
+                                width: rectTasks.width
+
+
+                                CheckBox {
+                                        id: control
+                                        checked: model.finished                                       
+                                        indicator: Rectangle {
+                                            implicitWidth: 35
+                                            implicitHeight: 35
+                                            x: control.leftPadding
+                                            y: parent.height / 2 - height / 2
+                                            radius: 3
+                                            border.color: control.down ? "#17a81a" : "#21be2b"
+
+
+                                            Text {
+                                                width: 14
+                                                height: 14
+                                                x: 0
+                                                y: -10
+                                                text: "✔"
+                                                font.pointSize: 18
+                                                color: control.down ? "#17a81a" : "#21be2b"
+                                                visible: control.checked                                                
+                                            }
+                                        }
+                                        onClicked: model.finished = checked
+                                    }
+                                TextField {
+                                    Layout.fillWidth: true
+                                    text: model.description
+                                    onEditingFinished: model.description = text
+                                }
+                            }
+                        }
+
+
 
                     }
 
-                    ListView{
+                    Rectangle {
+                        id: rectangle
+                        y: 899
+                        width: 484
+                        height: 67
+                        color: "transparent"
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right:  parent.right
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 10
+                        anchors.bottomMargin: 20
+
+                        MyButton {
+                            id: myButton
+
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 0
+                            Material.background: "#731d31"
+
+                            width: 300
+
+                            contentItem: Text {
+                                color: "#ffffff"
+                                font.pointSize: 13
+                                text: "Clear Finished Tasks"
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+
+                                wrapMode: Text.Wrap
+                                textFormat: Text.StyledText
+                                font.italic: true
+                                font.bold: true
+                                font.underline: false
+                            }
+                            onClicked: taskList.removeCompletedTasks()
+
+
+
+                        }
+
+
+                        RoundButton {
+
+                            id: roundButton
+                            x: 404
+                            y: -7
+                            width: 72
+                            height: 74
+                            anchors.right: parent.right
+                            anchors.rightMargin: 8
+                            highlighted: false
+                            flat: false
+
+                            Material.background: "#2d481d"
+
+                            contentItem: Text {
+                                text: "+"
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: 18
+                                font.pixelSize: 50
+                                color: "#ffffff"
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                styleColor: "#204318"
+                            }
+
+                            onClicked: taskList.appendTask()
+
+
+
+                        }
+
+
+
 
                     }
+
+
+
 
 
 

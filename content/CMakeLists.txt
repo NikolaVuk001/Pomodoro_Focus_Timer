@@ -12,5 +12,7 @@ qt6_add_qml_module(content
         fonts/fonts.txt
         QML_FILES FlipItem.qml
         QML_FILES MyButton.qml
+        QML_FILES
+        SOURCES taskmodel.h taskmodel.cpp
 
 )

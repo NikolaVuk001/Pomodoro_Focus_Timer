@@ -14,6 +14,10 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
 endif()
 
 qt_add_executable(Pomodor_Qt_FrameworkApp src/main.cpp
+    tasklist.h tasklist.cpp
+    task.h task.cpp
+
+
 )
 
 qt_add_resources(Pomodor_Qt_FrameworkApp "configuration"
