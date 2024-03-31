@@ -24,7 +24,7 @@ QVariant TaskModel::data(const QModelIndex &index, int role) const
 
     const Task *task = m_List->tasks().at(index.row());
 
-    qInfo() << role;
+
     switch(role){
     case FinishedRole:        
         return QVariant(task->finished());
@@ -43,9 +43,6 @@ bool TaskModel::setData(const QModelIndex &index, const QVariant &value, int rol
     }
 
     Task *task = m_List->tasks().at(index.row());
-    qInfo() << task->name();
-    qInfo() << value;
-
     switch(role){
     case FinishedRole:
 
@@ -76,7 +73,6 @@ QHash<int, QByteArray> TaskModel::roleNames() const
     QHash<int,QByteArray> names;
     names[FinishedRole] = "finished";
     names[TaskNameRole] = "description";
-    qInfo() << names;
     return names;
 }
 

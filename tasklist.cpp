@@ -3,20 +3,26 @@
 TaskList::TaskList(QObject *parent)
     : QObject{parent}
 {
+    /*On Creating A List A JSON Document Is Loaded With All The User Tasks That Are Not Finished*/
+    QJsonDocument doc = JSON_Converter::readJson("UserTasks.txt");
+    QJsonArray array = doc.array();
+    QJsonValue val;
+    for(auto jsonObj : array)
+    {
+        Task *t = new Task(this);
+        t->setName(jsonObj.toObject().value("name").toString());
+        t->setFinished(jsonObj.toObject().value("finished").toBool());
+        t->setDate(QDate::fromString(jsonObj.toObject().value("date").toString()));
 
-    Task *t1 = new Task(this);
-    t1->setName("Prvi Task Za Danas");
-    m_Tasks.append(t1);
+        m_Tasks.append(t);
+    }
+}
 
-    Task *t2 = new Task(this);
-    t2->setName("Drugi Task Za Danas");
-    t2->setFinished(true);
-    m_Tasks.append(t2);
-
-
-
-
-
+TaskList::~TaskList()
+{
+    /* Apon Exiting The Application Goes Thru Every Task In Task List
+    That Is Finished And Saves It To JSON*/
+    JSON_Converter::writeJson<QList<Task*>>(m_Tasks,"UserTasks.txt");
 }
 
 bool TaskList::setItemAt(int index, Task *task)

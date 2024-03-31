@@ -26,3 +26,22 @@ void Task::setName(const QString &newName)
 {
     m_name = newName;
 }
+
+QDate Task::date() const
+{
+    return m_date;
+}
+
+QJsonObject Task::toJson() const
+{
+    QJsonObject obj;
+    obj["name"] = m_name;
+    obj["finished"] = m_finished;
+    obj["date"] = date().toString();
+    return obj;
+}
+
+void Task::setDate(const QDate &newDate)
+{
+    m_date = newDate;
+}

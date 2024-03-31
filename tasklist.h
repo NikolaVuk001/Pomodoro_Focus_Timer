@@ -6,6 +6,7 @@
 #include <QDebug>
 
 #include "task.h"
+#include "json_converter.h"
 
 
 
@@ -14,6 +15,7 @@ class TaskList : public QObject
     Q_OBJECT
 public:
     explicit TaskList(QObject *parent = nullptr);
+    ~TaskList();
 
     bool setItemAt(int index, Task *task);
 
