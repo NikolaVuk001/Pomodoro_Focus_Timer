@@ -168,11 +168,14 @@ Window {
                                 sysTrayIcon.showMessage("Its Focus Time", "Time To Study")
 
                             } if(clockItem.state === "BreakTime") {
-                                lblTime.text = "Break Time"
+                                lblTime.text = "BreakTime"
                                 lblTime.visible = true
                                 sysTrayIcon.showMessage("Its Break Time", "Time For A Break")
-                            } else {
+                            } else if(clockItem.state === "DefaultState"){
                                 lblTime.visible = false
+                                rowButtonsDefault.visible = true
+                                rowButtonsStarted.visible = false
+
                             }
                         }
                     }

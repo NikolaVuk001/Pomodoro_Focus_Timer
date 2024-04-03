@@ -16,6 +16,9 @@ Item{
         },
         State {
             name: "BreakTime"
+        },
+        State {
+            name: "DefaultState"
         }
     ]
 
@@ -39,6 +42,8 @@ Item{
                         txtSec.text = "00"
                         rotatMin.angle -= 360
                         timer.running = false;
+                        root.state = "DefaultState"
+
                     }
             }
             else {
