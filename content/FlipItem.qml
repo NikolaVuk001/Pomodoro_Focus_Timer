@@ -5,6 +5,8 @@ import QtQuick.Controls 2.15
 Item{
     id: root
     property alias timer: timer
+    property int studyMin: 25
+    property int breakMin: 5
     property alias minutes: txtMin.text
     property alias seconds: txtSec.text
     property alias state: root.state
@@ -32,13 +34,12 @@ Item{
             {
                 txtMinBack.text = txtMin.text
                 if(root.state === "StudyTime") {
-                    txtMin.text = "05"
-                    txtSec.text = "00"
-                    // rotatMin.angle -= 360
+                    txtMin.text = breakMin.toString()
+                    txtSec.text = "00"                    
                     timer.running = true;
                     root.state = "BreakTime";
                 } else {
-                        txtMin.text = 25
+                        txtMin.text = studyMin.toString()
                         txtSec.text = "00"
                         rotatMin.angle -= 360
                         timer.running = false;
@@ -119,7 +120,7 @@ Item{
                 x: -97
                 y: -56
                 color: "#f3ebbe"
-                text: qsTr("25")
+                text: studyMin.toString()
                 anchors.fill: parent
                 anchors.leftMargin: 0
                 anchors.rightMargin: 0

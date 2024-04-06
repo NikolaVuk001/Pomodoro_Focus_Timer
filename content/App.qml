@@ -25,17 +25,142 @@ Window {
     SystemTrayIcon {
         id: sysTrayIcon
         visible: true
-           icon.source: "qrc:/Images/TimerIcon.png"
+        icon.source: "qrc:/Images/TimerIcon.png"
 
-           onActivated: {
-               window.show()
-               window.raise()
-               window.requestActivate()
-           }
+        onActivated: {
+            window.show()
+            window.raise()
+            window.requestActivate()
+        }
     }
 
 
 
+
+    Row {
+        id: row
+        x: 0
+        y: 880
+        width: 1306
+        height: 141
+        anchors.bottom: toolsRow.top
+        anchors.bottomMargin: 0
+
+        MyMenuInterval {
+            id: menuInterval
+            border.color: "black"
+            border.width: 2
+            color: "transparent"
+            height: parent.height
+            width: parent.width / 4
+            visible: false
+            studyTime.value: clockItem.studyMin
+            studyTime.onValueChanged: {
+                if(studyTime.value < 10) {
+                   clockItem.minutes =  "0" + studyTime.value
+                } else {
+                    clockItem.minutes =  studyTime.value
+                }
+            }
+            studyTime.onPressedChanged: {
+                if(studyTime.pressed === true) {
+                    lblTime.text = "Study Time"
+                    lblTime.visible = true
+                }
+                else {
+                    lblTime.visible = false
+                }
+            }
+
+            breakTime.value:  clockItem.breakMin
+            breakTime.onValueChanged: {
+                if(lblTime.visible === true){
+                    clockItem.minutes = breakTime.value
+                    clockItem.breakMin = breakTime.value
+                }
+                else {
+                    clockItem.breakMin = breakTime.value
+                }
+            }
+
+            breakTime.onPressedChanged: {
+                if(breakTime.pressed === true) {
+                    lblTime.text = "Break Time"
+                    lblTime.visible = true
+                    if(breakTime.value < 10) {
+                        clockItem.minutes =  "0" + breakTime.value
+                    } else {
+                        clockItem.minutes =  breakTime.value
+                    }
+
+
+                }
+                else {
+                    lblTime.visible = false
+                    studyTime.valueChanged()
+                }
+            }
+
+
+        }
+    }
+
+    Row {
+        id: toolsRow
+        x: 0
+        y: 1021
+        width: 1306
+        height: 59
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        spacing: 3
+
+        Rectangle {
+            id: btnSetInterval
+            color: "transparent"
+            border.color: black
+            border.width: 5
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 3
+            Button {
+                anchors.fill: parent
+                text: "Set Pomodor Interval"
+                onClicked: {
+                    if(menuInterval.visible === false)
+                    {
+                        menuInterval.visible = true
+                    }
+                    else {
+                        menuInterval.visible = false
+                    }
+                }
+            }
+        }
+        Rectangle {
+            color: "transparent"
+            border.color: black
+            border.width: 5
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 3
+        }
+        Rectangle {
+            color: "transparent"
+            border.color: black
+            border.width: 5
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 3
+        }
+        Rectangle {
+            color: "transparent"
+            border.color: black
+            border.width: 5
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 3
+
+        }
+
+
+    }
 
     Rectangle{
         id: mainRow
@@ -60,7 +185,12 @@ Window {
             anchors.topMargin: 0
             anchors.bottomMargin: -1080
 
+
+
+
         }
+
+
         Rectangle{
             id: middleCol
             color: "transparent"
@@ -89,18 +219,37 @@ Window {
                 anchors.bottomMargin: 50
                 anchors.left: outerClock.left
                 anchors.leftMargin: 250
-                onTextChanged: opacityAnimation.running = true
+                /*onTextChanged*/onVisibleChanged: {
+                    if(visible === true) {
+                        opacityAnimation.running = true
+                    }
+                    else {
+                        opacityAnimationOut.running = true
+                    }
+                }
 
                 NumberAnimation {
-                id: opacityAnimation
-                target: lblTime
-                property: "opacity"
-                from: 0.0
-                to: 1.0
-                duration: 200
-                easing.type: Easing.InOutQuad
-                running: false
-            }
+                    id: opacityAnimation
+                    target: lblTime
+                    property: "opacity"
+                    from: 0.0
+                    to: 1.0
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                    running: false                    
+                }
+                NumberAnimation {
+                    id: opacityAnimationOut
+                    target: lblTime
+                    property: "opacity"
+                    from: 1.0
+                    to: 0.0
+                    duration: 500
+                    easing.type: Easing.InOutQuad
+                    running: false
+                }
+
+
 
 
             }
@@ -144,7 +293,6 @@ Window {
                         radius: 4
                         spread: 0.2
                         samples: 53
-                        antialiasing: true
                         verticalOffset: -4
                         horizontalOffset: -1
                     }
@@ -156,7 +304,7 @@ Window {
 
                     // Clock
                     FlipItem {
-                        id: clockItem
+                        id: clockItem                        
                         x: 563
                         width: 400
                         height: 250
@@ -241,6 +389,9 @@ Window {
                         rowButtonsStarted.visible = true
                         clockItem.state = "StudyTime"
                         lblTime.visible = true
+                        menuInterval.studyTime.enabled = false
+                        menuInterval.breakTime.enabled = false
+
                     }
                 }
             }
@@ -250,7 +401,7 @@ Window {
                 y: 885
                 height: 132
                 visible: false
-                anchors.top: outerClock.bottom
+                // anchors.top: outerClock.bottom
                 anchors.topMargin: 61
                 spacing: 50
 
@@ -260,10 +411,20 @@ Window {
                     text: "Pause"
                     width: 200
                     height: 75
+                    visible: true
                     onClicked: {
                         btnPause.visible = false
                         btnResume.visible = true
                         clockItem.timer.stop()
+                        menuInterval.studyTime.enabled = false
+                        if(clockItem.state === "StudyTime") {
+                            menuInterval.breakTime.enabled = true
+                        }
+                        else {
+                            menuInterval.breakTime.enabled = false
+                        }
+
+
                     }
 
                 }
@@ -278,6 +439,8 @@ Window {
                         btnResume.visible = false
                         btnPause.visible = true
                         clockItem.timer.start()
+                        menuInterval.studyTime.enabled = false
+                        menuInterval.breakTime.enabled = false
 
                     }
 
@@ -289,12 +452,14 @@ Window {
                     width: 200
                     height: 75
                     onClicked: {
-                        clockItem.minutes = "25"
+                        menuInterval.studyTime.valueChanged()
                         clockItem.seconds = "00"
                         clockItem.timer.stop()
                         rowButtonsDefault.visible = true
                         rowButtonsStarted.visible = false
                         lblTime.visible = false
+                        menuInterval.studyTime.enabled = true
+                        menuInterval.breakTime.enabled = true
 
                     }
                 }
@@ -341,7 +506,6 @@ Window {
                         radius: 4
                         spread: 0.2
                         samples: 53
-                        antialiasing: true
                         verticalOffset: -4
                         horizontalOffset: -1
                     }
@@ -403,30 +567,30 @@ Window {
 
 
                                 CheckBox {
-                                        id: control
-                                        checked: model.finished
-                                        indicator: Rectangle {
-                                            implicitWidth: 40
-                                            implicitHeight: 40
-                                            x: control.leftPadding
-                                            y: parent.height / 2 - height / 2
-                                            radius: 3
-                                            border.color: control.down ? "#17a81a" : "#21be2b"
+                                    id: control
+                                    checked: model.finished
+                                    indicator: Rectangle {
+                                        implicitWidth: 40
+                                        implicitHeight: 40
+                                        x: control.leftPadding
+                                        y: parent.height / 2 - height / 2
+                                        radius: 3
+                                        border.color: control.down ? "#17a81a" : "#21be2b"
 
 
-                                            Text {
-                                                width: 20
-                                                height: 20
-                                                x: 0
-                                                y: -10
-                                                text: "✔"
-                                                font.pointSize: 20
-                                                color: control.down ? "#17a81a" : "#21be2b"
-                                                visible: control.checked
-                                            }
+                                        Text {
+                                            width: 20
+                                            height: 20
+                                            x: 0
+                                            y: -10
+                                            text: "✔"
+                                            font.pointSize: 20
+                                            color: control.down ? "#17a81a" : "#21be2b"
+                                            visible: control.checked
                                         }
-                                        onClicked: model.finished = checked
                                     }
+                                    onClicked: model.finished = checked
+                                }
                                 TextField {
 
                                     font.pointSize: 15
@@ -536,7 +700,11 @@ Window {
 
             }
         }
+
+
     }
+
+
 
 }
 

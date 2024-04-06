@@ -14,5 +14,6 @@ qt6_add_qml_module(content
         QML_FILES MyButton.qml
         QML_FILES
         SOURCES taskmodel.h taskmodel.cpp
+        QML_FILES MyMenuInterval.qml
 
 )
