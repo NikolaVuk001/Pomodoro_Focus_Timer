@@ -7,8 +7,6 @@ import QtQuick.Controls
 import QtQuick.Studio.Effects
 import QtQuick.Layouts
 import Qt.labs.platform
-import QtQuick 2.0 as QtQuickModuleImportedInJS
-import QtQuick.Window 2.2
 
 
 import com.pomodoro.Task 1.0
@@ -23,53 +21,13 @@ Window {
     Button {
         width: 200
         height: 100
-
-
-
         x: 0
-        y: 50
-        background: Image {
-            id: popUpImage
-            source: "qrc:/Images/new_window_pop_up-512.webp"
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-
-
-            Behavior on scale {
-
-                NumberAnimation {duration: 300;}
-            }
-
-        }
+        y: 0
+        text: "Open New Windows"
 
         onClicked: {
-            var component = Qt.createComponent("PopUpWindow.qml")
-            if (component.status === QtQuickModuleImportedInJS.Component.Ready) {
-                var newWindow = component.createObject(newWindow)
-                window.hide()
-                newWindow.show()
-            }
+            newWindow.show()
         }
-
-        onHoveredChanged: {
-            if (hovered) {
-                popUpImage.scale = 1.15
-            } else {
-                popUpImage.scale = 1.0
-            }
-        }
-
-
-    }
-
-    Window {
-        visible: false
-        id: newWindow
-
-        property int min: 0
-        property int sec: 0
-
-
     }
 
     id: window
@@ -165,26 +123,26 @@ Window {
             }
 
         }
-        // Rectangle {
-        //     height: parent.height
-        //     width: parent.width / 4 - 13
-        //     color: "transparent"
-        //     Popup {
-        //         height: parent.height
-        //         width: parent.width
-        //         visible: false
-        //     }
-        // }
-        // Rectangle {
-        //     height: parent.height
-        //     width: parent.width / 4 - 13
-        //     color: "transparent"
-        //     Popup {
-        //         height: parent.height
-        //         width: parent.width
-        //         visible: false
-        //     }
-        // }
+        Rectangle {
+            height: parent.height
+            width: parent.width / 4 - 13
+            color: "transparent"
+            Popup {
+                height: parent.height
+                width: parent.width
+                visible: false
+            }
+        }
+        Rectangle {
+            height: parent.height
+            width: parent.width / 4 - 13
+            color: "transparent"
+            Popup {
+                height: parent.height
+                width: parent.width
+                visible: false
+            }
+        }
         Rectangle {
             height: parent.height
             width: parent.width / 4 - 13
@@ -196,7 +154,7 @@ Window {
                 visible: false
 
                 onVisibleChanged: {
-                    if(!clockItem.timer.running) {
+                    if(clockItem.state !== "StudyTime" || clockItem.state !== "BreakTime") {
                         if(player !== null)
                         {
                             player.stop()
@@ -221,15 +179,15 @@ Window {
         height: 59
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 11
-        anchors.horizontalCenterOffset: 100
+        anchors.horizontalCenterOffset: -296
         anchors.horizontalCenter: parent.horizontalCenter
-
-        spacing: 10
+        spacing: 5
 
 
         Rectangle {
             id: btnSetInterval
-            color: "#544d3c"            
+            color: "#544d3c"
+            border.color: black
             border.width: 3
             height: toolsRow.height
             width: toolsRow.width / 4 - 10
@@ -270,26 +228,29 @@ Window {
                 }
             }
         }
-        // Rectangle {
-
-        //     color: "#544d3c"
-        //     border.width: 3
-        //     height: toolsRow.height
-        //     width: toolsRow.width / 4 - 10
-        //     radius: 15
-
-        //     }
-        // Rectangle {
-
-        //     color: "#544d3c"
-        //     border.width: 3
-        //     height: toolsRow.height
-        //     width: toolsRow.width / 4 - 10
-        //     radius: 15
-        // }
         Rectangle {
 
-            color: "#544d3c"            
+            color: "#544d3c"
+            border.color: black
+            border.width: 3
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 10
+            radius: 15
+
+            }
+        Rectangle {
+
+            color: "#544d3c"
+            border.color: black
+            border.width: 3
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 10
+            radius: 15
+        }
+        Rectangle {
+
+            color: "#544d3c"
+            border.color: black
             border.width: 3
             height: toolsRow.height
             width: toolsRow.width / 4 - 10
@@ -301,7 +262,7 @@ Window {
 
 
                 Text {
-                    text: "Backround Noise"
+                    text: "Backround Ambiance"
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#f9f4cc"
                     wrapMode: Text.Wrap
@@ -500,8 +461,12 @@ Window {
                             }
                         }
                         timer.onTriggered: {
-                            newWindow.min = clockItem.minutes
-                            newWindow.sec = clockItem.seconds
+                            if(newWindow !== null) {
+                                newWindow.min = clockItem.minutes
+                                newWindow.sec = clockItem.seconds
+                            }
+
+
                         }
 
                     }
@@ -579,7 +544,8 @@ Window {
                 id: rowButtonsStarted
                 y: 885
                 height: 132
-                visible: false                
+                visible: false
+                // anchors.top: outerClock.bottom
                 anchors.topMargin: 61
                 spacing: 50
 
@@ -884,6 +850,201 @@ Window {
 
 
     }
+
+    ApplicationWindow {
+        id: newWindow
+        width: 610
+        height: 230
+        visible: false
+
+
+
+
+
+
+        Rectangle {
+            id: outerClockSm
+            width: 600
+            height: 216
+            color: "#f9f4cc"
+            radius: 50
+            border.color: "#000000"
+            border.width: 0
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            layer.enabled: true
+            layer.effect: DropShadowEffect {
+                id: dropShadowSm
+                radius: 39
+                spread: 0.4
+                samples: 77
+            }
+
+            //Inner Rectangle
+            Rectangle {
+                id: innerClockSm
+                width: outerClock.width - 75
+                height: outerClock.height - 75
+                color: "#f8eeb8"
+                radius: 29
+                border.color: "#97866d"
+                border.width: 0
+                anchors.verticalCenter: parent.verticalCenter
+                layer.enabled: true
+                layer.effect: DropShadowEffect {
+                    id: dropShadow1Sm
+                    radius: 4
+                    spread: 0.2
+                    samples: 53
+                    verticalOffset: -4
+                    horizontalOffset: -1
+                }
+                anchors.verticalCenterOffset: 0
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+
+
+
+                // Clock
+                Rectangle {
+                id: rectMin
+                x: 100
+                y: 65
+                width: 211
+                height: 108
+                color: "#4e483a"
+                radius: 7
+                border.color: "#232323"
+                border.width: 7
+                anchors.verticalCenterOffset: -6
+                anchors.horizontalCenterOffset: -126
+
+                anchors.centerIn: parent
+
+                Text {
+                    id: txtMin
+                    x: -97
+                    y: -56
+                    color: "#f3ebbe"
+                    text: clockItem.minutes
+                    anchors.fill: parent
+                    anchors.leftMargin: 0
+                    anchors.rightMargin: 0
+                    anchors.topMargin: 0
+                    anchors.bottomMargin: 0
+                    font.pixelSize: 75
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignTop
+                    wrapMode: Text.NoWrap
+                    styleColor: "#000000"
+                    font.capitalization: Font.MixedCase
+                    style: Text.Sunken
+                    fontSizeMode: Text.Fit
+                    font.styleName: "Semibold"
+                    font.weight: Font.ExtraBold
+                    font.underline: false
+                    font.strikeout: false
+                    font.italic: false
+                    font.bold: true
+                }
+            }
+
+                Rectangle {
+                    id: rectSec
+                    x: 559
+                    y: 56
+                    z: 0
+                    width: 204
+                    height: 108
+                    color: rectMin.color
+                    radius: 7
+                    border.color: "#232323"
+                    border.width: 7
+                    anchors.verticalCenterOffset: -6
+                    anchors.horizontalCenterOffset: 144
+                    anchors.centerIn: parent
+
+                    Text {
+                        id: txtSec
+                        x: 51
+                        y: 34
+                        color: "#f3ebbe"
+                        text: clockItem.seconds
+                        anchors.fill: parent
+                        anchors.topMargin: 0
+                        font.pixelSize: 75
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignTop
+                        style: Text.Sunken
+                        font.styleName: "Semibold"
+                        font.strikeout: false
+                        font.underline: false
+                        font.italic: false
+                        font.weight: Font.ExtraBold
+                        font.bold: true
+                    }
+                }
+
+
+
+
+                //Upper Circle Rectangle
+                Rectangle {
+
+                    id: upperCircleSm
+                    y: 103
+                    width: 20
+                    height: 20
+                    color: "#fff5bf"
+                    radius: upperCircle.width
+                    border.color: "#000000"
+                    border.width: 4
+                    anchors.top: parent.top
+                    anchors.topMargin: 73
+                    anchors.horizontalCenterOffset: 10
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                //Down Circle Rectangle
+                Rectangle {
+                    id: downCircleSm
+                    x: 487
+                    y: 50
+                    width: 20
+                    height: 20
+                    color: "#fff5bf"
+                    radius: downCircle.width
+                    border.color: "#000000"
+                    border.width: 4
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 91
+                    anchors.horizontalCenterOffset: 10
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+
+            }
+        }
+
+
+
+        Button {
+            width: 200
+            height: 100
+            x: 0
+            y: 0
+            text: "Open New Windows"
+
+            onClicked: {
+                var component = Qt.createComponent("App.qml")
+                var newWindow = component.createObject(window)
+                window.close()
+                newWindow.show()
+            }
+        }
+    }
+
+
 
 }
 

@@ -1,0 +1,160 @@
+import QtQuick 6.2
+import Pomodor_Qt_Framework
+import QtQuick.Controls
+import QtQuick.Studio.Effects
+import QtQuick.Layouts
+import Qt.labs.platform
+
+
+import com.pomodoro.Task 1.0
+
+
+
+
+
+ApplicationWindow {
+    id: window
+    width: 765; height: 250
+
+
+    SystemTrayIcon {
+        id: sysTrayIcon
+        visible: true
+        icon.source: "qrc:/Images/TimerIcon.png"
+
+        onActivated: {
+            window.show()
+            window.raise()
+            window.requestActivate()
+        }
+    }
+
+
+    Rectangle {
+        id: outerClock
+        width: 765
+        height: 250
+        color: "#f9f4cc"
+        radius: 50
+        border.color: "#000000"
+        border.width: 0
+        anchors.verticalCenter: parent.verticalCenter
+        layer.enabled: true
+        layer.effect: DropShadowEffect {
+            id: dropShadow
+            radius: 39
+            spread: 0.4
+            samples: 77
+        }
+        anchors.verticalCenterOffset: 17
+        anchors.horizontalCenterOffset: -6
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        //Inner Rectangle
+        Rectangle {
+            id: innerClock
+            width: outerClock.width - 100
+            height: outerClock.height - 100
+            color: "#f8eeb8"
+            radius: 29
+            border.color: "#97866d"
+            border.width: 0
+            anchors.verticalCenter: parent.verticalCenter
+            layer.enabled: true
+            layer.effect: DropShadowEffect {
+                id: dropShadow1
+                radius: 4
+                spread: 0.2
+                samples: 53
+                verticalOffset: -4
+                horizontalOffset: -1
+            }
+            anchors.verticalCenterOffset: 0
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+
+
+
+            // Clock
+            FlipItem {
+                id: clockItem
+                x: 563
+                width: 400
+                height: 250
+                anchors.verticalCenter: parent.verticalCenter
+                onStateChanged: {
+                    if(clockItem.state === "StudyTime") {
+                        lblTime.text = "Study Time"
+                        lblTime.visible = true
+                        sysTrayIcon.showMessage("Its Focus Time", "Time To Study")
+
+                    } if(clockItem.state === "BreakTime") {
+                        lblTime.text = "BreakTime"
+                        lblTime.visible = true
+                        sysTrayIcon.showMessage("Its Break Time", "Time For A Break")
+                    } else if(clockItem.state === "DefaultState"){
+                        lblTime.visible = false
+                        rowButtonsDefault.visible = true
+                        rowButtonsStarted.visible = false
+
+                    }
+                }
+            }
+
+
+
+            //Upper Circle Rectangle
+            Rectangle {
+
+                id: upperCircle
+                y: 103
+                width: 50
+                height: 50
+                color: "#fff5bf"
+                radius: upperCircle.width
+                border.color: "#000000"
+                border.width: 4
+                anchors.top: parent.top
+                anchors.topMargin: 100
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            //Down Circle Rectangle
+            Rectangle {
+                id: downCircle
+                x: 487
+                y: 274
+                width: 50
+                height: 50
+                color: "#fff5bf"
+                radius: downCircle.width
+                border.color: "#000000"
+                border.width: 4
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 100
+                anchors.horizontalCenterOffset: -1
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+
+        }
+    }
+
+
+
+
+    Button {
+        width: 200
+        height: 100
+        x: 0
+        y: 0
+        text: "Open New Windows"
+
+        onClicked: {
+            var component = Qt.createComponent("App.qml")
+            var newWindow = component.createObject(window)
+            window.close()
+            newWindow.show()
+        }
+    }
+}

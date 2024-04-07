@@ -1,0 +1,50 @@
+import QtQuick 6.2
+import Pomodor_Qt_Framework
+import QtQuick.Controls
+import QtQuick.Studio.Effects
+import QtQuick.Layouts
+import Qt.labs.platform
+
+
+import com.pomodoro.Task 1.0
+
+
+
+
+
+ApplicationWindow {
+    id: window
+    width: 784
+    height: 323
+
+
+    SystemTrayIcon {
+        id: sysTrayIcon
+        visible: true
+        icon.source: "qrc:/Images/TimerIcon.png"
+
+        onActivated: {
+            window.show()
+            window.raise()
+            window.requestActivate()
+        }
+    }
+
+
+
+
+    Button {
+        width: 200
+        height: 100
+        x: 0
+        y: 0
+        text: "Open New Windows"
+
+        onClicked: {
+            var component = Qt.createComponent("App.qml")
+            var newWindow = component.createObject(window)
+            window.close()
+            newWindow.show()
+        }
+    }
+}

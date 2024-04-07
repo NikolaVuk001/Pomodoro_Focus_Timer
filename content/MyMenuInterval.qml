@@ -1,6 +1,7 @@
 import QtQuick 6.2
 import QtQuick.Controls
 
+
 Popup {
     id: menuInterval
     property alias studyTime: sldrStudy
@@ -8,7 +9,11 @@ Popup {
 
 
 
+
+
+
     background: PaddedRectangle {
+        id: rect
         anchors.fill: parent
         anchors.margins: 7
         color: "#f8eeb8"
@@ -18,6 +23,7 @@ Popup {
         border.width: 7
         radius: 15
         padding: -11
+
 
 
 
@@ -79,8 +85,7 @@ Popup {
                    spacing: 50
                    Label {
                        id: lblStudy
-                       text: sldrStudy.value + " min"
-                       anchors.left: sldrStudy.right
+                       text: sldrStudy.value + " min"                       
                        color: "#4e483a"
                        wrapMode: Text.Wrap
                        textFormat: Text.StyledText
@@ -91,8 +96,7 @@ Popup {
                    }
                    Label {
                        id: lblBreak
-                       text: sldrBreak.value + " min"
-                       anchors.left: sldrBreak.right
+                       text: sldrBreak.value + " min"                       
                        color: "#4e483a"
                        wrapMode: Text.Wrap
                        textFormat: Text.StyledText

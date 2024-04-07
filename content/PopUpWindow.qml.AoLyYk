@@ -1,0 +1,229 @@
+import QtQuick 6.2
+import Pomodor_Qt_Framework
+import QtQuick.Controls
+import QtQuick.Studio.Effects
+import QtQuick.Layouts
+import Qt.labs.platform
+import QtQuick.Window 2.2
+
+
+
+
+
+
+
+Window {
+    id: newWindow
+    width: 650
+    height: 280
+    color: "#838a59"
+
+    flags: Qt.WindowStaysOnTopHint
+
+
+    property alias min: txtMin.text
+    property alias sec: txtSec.text
+
+
+
+
+
+    Rectangle {
+        id: outerClock
+        width: 600
+        height: 216
+        color: "#f9f4cc"
+        radius: 50
+        border.color: "#000000"
+        border.width: 0
+        anchors.verticalCenter: parent.verticalCenter
+        z: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+        layer.enabled: true
+        layer.effect: DropShadowEffect {
+            id: dropShadow
+            radius: 39
+            spread: 0.4
+            samples: 77
+        }
+
+
+
+        //Inner Rectangle
+        Rectangle {
+            id: innerClock
+            width: outerClock.width - 75
+            height: outerClock.height - 75
+            color: "#f8eeb8"
+            radius: 29
+            border.color: "#97866d"
+            border.width: 0
+            anchors.verticalCenter: parent.verticalCenter
+            layer.enabled: true
+            layer.effect: DropShadowEffect {
+                id: dropShadow1
+                radius: 4
+                spread: 0.2
+                samples: 53
+                verticalOffset: -4
+                horizontalOffset: -1
+            }
+            anchors.verticalCenterOffset: 0
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+
+
+
+            // Clock
+            Rectangle {
+                id: rectMin
+                x: 100
+                y: 65
+                width: 211
+                height: 108
+                color: "#4e483a"
+                radius: 7
+                border.color: "#232323"
+                border.width: 7
+                anchors.verticalCenterOffset: -6
+                anchors.horizontalCenterOffset: -126
+
+                anchors.centerIn: parent
+
+                Text {
+                    id: txtMin
+                    x: -97
+                    y: -56
+                    color: "#f3ebbe"
+                    text: clockItem.minutes
+                    anchors.fill: parent
+                    anchors.leftMargin: 0
+                    anchors.rightMargin: 0
+                    anchors.topMargin: 0
+                    anchors.bottomMargin: 0
+                    font.pixelSize: 75
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignTop
+                    wrapMode: Text.NoWrap
+                    z: 0
+                    styleColor: "#000000"
+                    font.capitalization: Font.MixedCase
+                    style: Text.Sunken
+                    fontSizeMode: Text.Fit
+                    font.styleName: "Semibold"
+                    font.weight: Font.ExtraBold
+                    font.underline: false
+                    font.strikeout: false
+                    font.italic: false
+                    font.bold: true
+                }
+
+            }
+
+            Rectangle {
+                id: rectSec
+                x: 559
+                y: 56
+                z: 0
+                width: 204
+                height: 108
+                color: rectMin.color
+                radius: 7
+                border.color: "#232323"
+                border.width: 7
+                anchors.verticalCenterOffset: -6
+                anchors.horizontalCenterOffset: 144
+                anchors.centerIn: parent
+
+                Text {
+                    id: txtSec
+                    x: 51
+                    y: 34
+                    color: "#f3ebbe"
+                    text: clockItem.seconds
+                    anchors.fill: parent
+                    anchors.topMargin: 0
+                    font.pixelSize: 75
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignTop
+                    style: Text.Sunken
+                    font.styleName: "Semibold"
+                    font.strikeout: false
+                    font.underline: false
+                    font.italic: false
+                    font.weight: Font.ExtraBold
+                    font.bold: true
+                }
+            }
+
+
+
+
+            //Upper Circle Rectangle
+            Rectangle {
+
+                id: upperCircle
+                y: 500
+                width: 20
+                height: 20
+                color: "#fff5bf"
+                radius: upperCircle.width
+                border.color: "#000000"
+                border.width: 4
+                anchors.top: parent.top
+                anchors.topMargin: 73
+                anchors.horizontalCenterOffset: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            //Down Circle Rectangle
+            Rectangle {
+                id: downCircle
+                x: 487
+                y: 500
+                width: 20
+                height: 20
+                color: "#fff5bf"
+                radius: downCircle.width
+                border.color: "#000000"
+                border.width: 4
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 91
+                anchors.horizontalCenterOffset: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+
+        }
+
+    }
+
+
+
+    Button {
+
+        width: 55
+        height: 65
+        x: 500
+        y: 0      
+        text: "X"
+        font.pointSize: 20
+
+        onClicked: {
+            newWindow.close()
+        }
+
+    }
+
+
+    onClosing: {
+        console.log("Closed")
+        window.show()
+    }
+
+
+}
+
+
+
+

@@ -11,6 +11,7 @@ Item{
     property alias seconds: txtSec.text
     property alias state: root.state  
 
+    // rectMinBack
 
     states: [
         State {
