@@ -13,7 +13,7 @@ if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
-qt_add_executable(Pomodor_Qt_FrameworkApp src/main.cpp
+qt_add_executable(Pomodor_Qt_FrameworkApp WIN32 src/main.cpp
     tasklist.h tasklist.cpp
     task.h task.cpp
     json_converter.h json_converter.cpp

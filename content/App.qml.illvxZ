@@ -7,8 +7,6 @@ import QtQuick.Controls
 import QtQuick.Studio.Effects
 import QtQuick.Layouts
 import Qt.labs.platform
-import QtQuick 2.0 as QtQuickModuleImportedInJS
-import QtQuick.Window 2.2
 
 
 import com.pomodoro.Task 1.0
@@ -18,60 +16,6 @@ import com.pomodoro.Task 1.0
 
 
 Window {
-
-
-    Button {
-        width: 200
-        height: 100
-
-
-
-        x: 0
-        y: 50
-        background: Image {
-            id: popUpImage
-            source: "qrc:/Images/new_window_pop_up-512.webp"
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-
-
-            Behavior on scale {
-
-                NumberAnimation {duration: 300;}
-            }
-
-        }
-
-        onClicked: {
-            var component = Qt.createComponent("PopUpWindow.qml")
-            if (component.status === QtQuickModuleImportedInJS.Component.Ready) {
-                var newWindow = component.createObject(newWindow)
-                window.hide()
-                newWindow.show()
-            }
-        }
-
-        onHoveredChanged: {
-            if (hovered) {
-                popUpImage.scale = 1.15
-            } else {
-                popUpImage.scale = 1.0
-            }
-        }
-
-
-    }
-
-    Window {
-        visible: false
-        id: newWindow
-
-        property int min: 0
-        property int sec: 0
-
-
-    }
-
     id: window
     width: Constants.width
     height: Constants.height
@@ -95,240 +39,136 @@ Window {
 
     Row {
         id: row
+        x: 0
         y: 880
-        height: 200
-        anchors.left: toolsRow.left
-        anchors.right: toolsRow.right
+        width: 1306
+        height: 141
         anchors.bottom: toolsRow.top
-        anchors.bottomMargin: 5
-        spacing: 3
+        anchors.bottomMargin: 0
 
-        Rectangle {
-            height: parent.height
-            width: parent.width / 4 - 13
+        MyMenuInterval {
+            id: menuInterval
+            border.color: "black"
+            border.width: 2
             color: "transparent"
+            height: parent.height
+            width: parent.width / 4
+            visible: false
+            studyTime.value: clockItem.studyMin
+            studyTime.onValueChanged: {
+                if(studyTime.value < 10) {
+                   clockItem.minutes =  "0" + studyTime.value
+                } else {
+                    clockItem.minutes =  studyTime.value
+                }
+            }
+            studyTime.onPressedChanged: {
+                if(studyTime.pressed === true) {
+                    lblTime.text = "Study Time"
+                    lblTime.visible = true
+                }
+                else {
+                    lblTime.visible = false
+                }
+            }
 
-            MyMenuInterval {
-                id: menuInterval
-                height: parent.height
-                width: parent.width
-                visible: false
+            breakTime.value:  clockItem.breakMin
+            breakTime.onValueChanged: {
+                if(lblTime.visible === true){
+                    clockItem.minutes = breakTime.value
+                    clockItem.breakMin = breakTime.value
+                }
+                else {
+                    clockItem.breakMin = breakTime.value
+                }
+            }
 
-                studyTime.value: clockItem.studyMin
-                studyTime.onValueChanged: {
-                    if(studyTime.value < 10) {
-                        clockItem.minutes =  "0" + studyTime.value
+            breakTime.onPressedChanged: {
+                if(breakTime.pressed === true) {
+                    lblTime.text = "Break Time"
+                    lblTime.visible = true
+                    if(breakTime.value < 10) {
+                        clockItem.minutes =  "0" + breakTime.value
                     } else {
-                        clockItem.minutes =  studyTime.value
+                        clockItem.minutes =  breakTime.value
                     }
+
+
                 }
-                studyTime.onPressedChanged: {
-                    if(studyTime.pressed === true) {
-                        lblTime.text = "Study Time"
-                        lblTime.visible = true
-                    }
-                    else {
-                        lblTime.visible = false
-                    }
+                else {
+                    lblTime.visible = false
+                    studyTime.valueChanged()
                 }
-
-                breakTime.value:  clockItem.breakMin
-                breakTime.onValueChanged: {
-                    if(lblTime.visible === true){
-                        clockItem.minutes = breakTime.value
-                        clockItem.breakMin = breakTime.value
-                    }
-                    else {
-                        clockItem.breakMin = breakTime.value
-                    }
-                }
-
-                breakTime.onPressedChanged: {
-                    if(breakTime.pressed === true) {
-                        lblTime.text = "Break Time"
-                        lblTime.visible = true
-                        if(breakTime.value < 10) {
-                            clockItem.minutes =  "0" + breakTime.value
-                        } else {
-                            clockItem.minutes =  breakTime.value
-                        }
-
-
-                    }
-                    else {
-                        lblTime.visible = false
-                        studyTime.valueChanged()
-                    }
-                }
-
-
             }
 
+
         }
-        // Rectangle {
-        //     height: parent.height
-        //     width: parent.width / 4 - 13
-        //     color: "transparent"
-        //     Popup {
-        //         height: parent.height
-        //         width: parent.width
-        //         visible: false
-        //     }
-        // }
-        // Rectangle {
-        //     height: parent.height
-        //     width: parent.width / 4 - 13
-        //     color: "transparent"
-        //     Popup {
-        //         height: parent.height
-        //         width: parent.width
-        //         visible: false
-        //     }
-        // }
-        Rectangle {
-            height: parent.height
-            width: parent.width / 4 - 13
-            color: "transparent"
-            MyMenuAmbiance {
-                id: menuAmbiance
-                height: parent.height
-                width: parent.width
-                visible: false
-
-                onVisibleChanged: {
-                    if(!clockItem.timer.running) {
-                        if(player !== null)
-                        {
-                            player.stop()
-                        }
-
-                    }
-                }
-
-            }
-        }
-
     }
 
-
-
-
+    Popup {
+           id: popup
+           x: 100
+           y: 100
+           width: 200
+           height: 300
+           modal: true
+           focus: true
+           closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+       }
 
     Row {
         id: toolsRow
+        x: 0
         y: 1021
         width: 1306
         height: 59
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 11
-        anchors.horizontalCenterOffset: 100
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        spacing: 10
-
+        anchors.bottomMargin: 0
+        spacing: 3
 
         Rectangle {
             id: btnSetInterval
-            color: "#544d3c"            
-            border.width: 3
+            color: "transparent"
+            border.color: black
+            border.width: 5
             height: toolsRow.height
-            width: toolsRow.width / 4 - 10
-            radius: 15
-
-
+            width: toolsRow.width / 4 - 3
             Button {
-                id: btnSetTimer
                 anchors.fill: parent
-
-
-                Text {
-                    text: "Timer Interval"
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: "#f9f4cc"
-                    wrapMode: Text.Wrap
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    textFormat: Text.StyledText
-                    font.italic: true
-                    font.bold: true
-                    font.underline: false
-                    font.pointSize: 13
-
-                }
-
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "transparent"
-                }
-
-                onClicked: {
-                    if(menuInterval.visible === false) {
-                        menuInterval.open()
-                    } else {
-                        menuInterval.close()
+                text: "Set Pomodor Interval"
+                onClicked: popup.open()/*{
+                    if(menuInterval.visible === false)
+                    {
+                        menuInterval.popUp.running = true
+                        menuInterval.popUp.onComple
+                        menuInterval.visible = true
                     }
-
-                }
+                    else {
+                        menuInterval.visible = false
+                    }
+                }*/
             }
         }
-        // Rectangle {
-
-        //     color: "#544d3c"
-        //     border.width: 3
-        //     height: toolsRow.height
-        //     width: toolsRow.width / 4 - 10
-        //     radius: 15
-
-        //     }
-        // Rectangle {
-
-        //     color: "#544d3c"
-        //     border.width: 3
-        //     height: toolsRow.height
-        //     width: toolsRow.width / 4 - 10
-        //     radius: 15
-        // }
         Rectangle {
-
-            color: "#544d3c"            
-            border.width: 3
+            color: "transparent"
+            border.color: black
+            border.width: 5
             height: toolsRow.height
-            width: toolsRow.width / 4 - 10
-            radius: 15
-
-            Button {
-                id: btnSetNoise
-                anchors.fill: parent
-
-
-                Text {
-                    text: "Backround Noise"
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: "#f9f4cc"
-                    wrapMode: Text.Wrap
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    textFormat: Text.StyledText
-                    font.italic: true
-                    font.bold: true
-                    font.underline: false
-                    font.pointSize: 13
-
-                }
-
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "transparent"
-                }
-
-                onClicked: {
-                    if(menuAmbiance.visible === false) {
-                        menuAmbiance.open()
-                    } else {
-                        menuAmbiance.close()
-                    }
-
-                }
-            }
-
+            width: toolsRow.width / 4 - 3
+        }
+        Rectangle {
+            color: "transparent"
+            border.color: black
+            border.width: 5
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 3
+        }
+        Rectangle {
+            color: "transparent"
+            border.color: black
+            border.width: 5
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 3
 
         }
 
@@ -392,7 +232,7 @@ Window {
                 anchors.bottomMargin: 50
                 anchors.left: outerClock.left
                 anchors.leftMargin: 250
-                onVisibleChanged: {
+                /*onTextChanged*/onVisibleChanged: {
                     if(visible === true) {
                         opacityAnimation.running = true
                     }
@@ -409,7 +249,7 @@ Window {
                     to: 1.0
                     duration: 200
                     easing.type: Easing.InOutQuad
-                    running: false
+                    running: false                    
                 }
                 NumberAnimation {
                     id: opacityAnimationOut
@@ -477,7 +317,7 @@ Window {
 
                     // Clock
                     FlipItem {
-                        id: clockItem
+                        id: clockItem                        
                         x: 563
                         width: 400
                         height: 250
@@ -499,11 +339,6 @@ Window {
 
                             }
                         }
-                        timer.onTriggered: {
-                            newWindow.min = clockItem.minutes
-                            newWindow.sec = clockItem.seconds
-                        }
-
                     }
 
 
@@ -569,7 +404,6 @@ Window {
                         lblTime.visible = true
                         menuInterval.studyTime.enabled = false
                         menuInterval.breakTime.enabled = false
-                        menuAmbiance.player.play()
 
                     }
                 }
@@ -579,7 +413,8 @@ Window {
                 id: rowButtonsStarted
                 y: 885
                 height: 132
-                visible: false                
+                visible: false
+                // anchors.top: outerClock.bottom
                 anchors.topMargin: 61
                 spacing: 50
 
@@ -601,7 +436,6 @@ Window {
                         else {
                             menuInterval.breakTime.enabled = false
                         }
-                        menuAmbiance.player.stop()
 
 
                     }
@@ -620,7 +454,6 @@ Window {
                         clockItem.timer.start()
                         menuInterval.studyTime.enabled = false
                         menuInterval.breakTime.enabled = false
-                        menuAmbiance.player.play()
 
                     }
 
@@ -640,7 +473,6 @@ Window {
                         lblTime.visible = false
                         menuInterval.studyTime.enabled = true
                         menuInterval.breakTime.enabled = true
-                        menuAmbiance.player.stop()
 
                     }
                 }
@@ -884,6 +716,8 @@ Window {
 
 
     }
+
+
 
 }
 

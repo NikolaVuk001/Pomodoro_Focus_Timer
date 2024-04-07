@@ -1,6 +1,7 @@
 #ifndef TASK_H
 #define TASK_H
 
+#include "qqmlintegration.h"
 #include <QObject>
 #include <QDate>
 #include <QJsonObject>
@@ -8,6 +9,8 @@
 class Task : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+
 public:
     explicit Task(QObject *parent = nullptr);
 

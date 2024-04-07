@@ -7,8 +7,7 @@ import QtQuick.Controls
 import QtQuick.Studio.Effects
 import QtQuick.Layouts
 import Qt.labs.platform
-import QtQuick 2.0 as QtQuickModuleImportedInJS
-import QtQuick.Window 2.2
+
 
 
 import com.pomodoro.Task 1.0
@@ -18,60 +17,6 @@ import com.pomodoro.Task 1.0
 
 
 Window {
-
-
-    Button {
-        width: 200
-        height: 100
-
-
-
-        x: 0
-        y: 50
-        background: Image {
-            id: popUpImage
-            source: "qrc:/Images/new_window_pop_up-512.webp"
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-
-
-            Behavior on scale {
-
-                NumberAnimation {duration: 300;}
-            }
-
-        }
-
-        onClicked: {
-            var component = Qt.createComponent("PopUpWindow.qml")
-            if (component.status === QtQuickModuleImportedInJS.Component.Ready) {
-                var newWindow = component.createObject(newWindow)
-                window.hide()
-                newWindow.show()
-            }
-        }
-
-        onHoveredChanged: {
-            if (hovered) {
-                popUpImage.scale = 1.15
-            } else {
-                popUpImage.scale = 1.0
-            }
-        }
-
-
-    }
-
-    Window {
-        visible: false
-        id: newWindow
-
-        property int min: 0
-        property int sec: 0
-
-
-    }
-
     id: window
     width: Constants.width
     height: Constants.height
@@ -101,135 +46,102 @@ Window {
         anchors.right: toolsRow.right
         anchors.bottom: toolsRow.top
         anchors.bottomMargin: 5
-        spacing: 3
 
-        Rectangle {
+
+        MyMenuInterval {
+            id: menuInterval
             height: parent.height
-            width: parent.width / 4 - 13
-            color: "transparent"
+            width: parent.width / 4
+            visible: false
 
-            MyMenuInterval {
-                id: menuInterval
-                height: parent.height
-                width: parent.width
-                visible: false
+            studyTime.value: clockItem.studyMin
+            studyTime.onValueChanged: {
+                if(studyTime.value < 10) {
+                    clockItem.minutes =  "0" + studyTime.value
+                } else {
+                    clockItem.minutes =  studyTime.value
+                }
+            }
+            studyTime.onPressedChanged: {
+                if(studyTime.pressed === true) {
+                    lblTime.text = "Study Time"
+                    lblTime.visible = true
+                }
+                else {
+                    lblTime.visible = false
+                }
+            }
 
-                studyTime.value: clockItem.studyMin
-                studyTime.onValueChanged: {
-                    if(studyTime.value < 10) {
-                        clockItem.minutes =  "0" + studyTime.value
+            breakTime.value:  clockItem.breakMin
+            breakTime.onValueChanged: {
+                if(lblTime.visible === true){
+                    clockItem.minutes = breakTime.value
+                    clockItem.breakMin = breakTime.value
+                }
+                else {
+                    clockItem.breakMin = breakTime.value
+                }
+            }
+
+            breakTime.onPressedChanged: {
+                if(breakTime.pressed === true) {
+                    lblTime.text = "Break Time"
+                    lblTime.visible = true
+                    if(breakTime.value < 10) {
+                        clockItem.minutes =  "0" + breakTime.value
                     } else {
-                        clockItem.minutes =  studyTime.value
+                        clockItem.minutes =  breakTime.value
                     }
+
+
                 }
-                studyTime.onPressedChanged: {
-                    if(studyTime.pressed === true) {
-                        lblTime.text = "Study Time"
-                        lblTime.visible = true
-                    }
-                    else {
-                        lblTime.visible = false
-                    }
+                else {
+                    lblTime.visible = false
+                    studyTime.valueChanged()
                 }
-
-                breakTime.value:  clockItem.breakMin
-                breakTime.onValueChanged: {
-                    if(lblTime.visible === true){
-                        clockItem.minutes = breakTime.value
-                        clockItem.breakMin = breakTime.value
-                    }
-                    else {
-                        clockItem.breakMin = breakTime.value
-                    }
-                }
-
-                breakTime.onPressedChanged: {
-                    if(breakTime.pressed === true) {
-                        lblTime.text = "Break Time"
-                        lblTime.visible = true
-                        if(breakTime.value < 10) {
-                            clockItem.minutes =  "0" + breakTime.value
-                        } else {
-                            clockItem.minutes =  breakTime.value
-                        }
-
-
-                    }
-                    else {
-                        lblTime.visible = false
-                        studyTime.valueChanged()
-                    }
-                }
-
-
             }
 
+
         }
-        // Rectangle {
-        //     height: parent.height
-        //     width: parent.width / 4 - 13
-        //     color: "transparent"
-        //     Popup {
-        //         height: parent.height
-        //         width: parent.width
-        //         visible: false
-        //     }
+
+        // Popup {
+
         // }
-        // Rectangle {
-        //     height: parent.height
-        //     width: parent.width / 4 - 13
-        //     color: "transparent"
-        //     Popup {
-        //         height: parent.height
-        //         width: parent.width
-        //         visible: false
-        //     }
+        // Popup {
+
         // }
-        Rectangle {
-            height: parent.height
-            width: parent.width / 4 - 13
-            color: "transparent"
-            MyMenuAmbiance {
-                id: menuAmbiance
-                height: parent.height
-                width: parent.width
-                visible: false
 
-                onVisibleChanged: {
-                    if(!clockItem.timer.running) {
-                        if(player !== null)
-                        {
-                            player.stop()
-                        }
 
-                    }
-                }
 
-            }
-        }
+        // MyMenuAmbiance {
+        // }
 
     }
 
 
 
-
-
     Row {
         id: toolsRow
-        y: 1021
         width: 1306
         height: 59
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 11
-        anchors.horizontalCenterOffset: 100
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        spacing: 10
+        anchors.verticalCenter: row.verticalCenter
+        anchors.left: row.right
+        anchors.right: row.left
+        anchors.top: row.bottom
+        anchors.bottom: row.top
+        anchors.leftMargin: -1306
+        anchors.rightMargin: -1306
+        anchors.topMargin: 5
+        anchors.bottomMargin: -264
+        anchors.horizontalCenterOffset: -296
+        anchors.horizontalCenter: row.horizontalCenter
+        spacing: 5
 
 
         Rectangle {
             id: btnSetInterval
-            color: "#544d3c"            
+            color: "#544d3c"
+            border.color: black
             border.width: 3
             height: toolsRow.height
             width: toolsRow.width / 4 - 10
@@ -270,26 +182,29 @@ Window {
                 }
             }
         }
-        // Rectangle {
-
-        //     color: "#544d3c"
-        //     border.width: 3
-        //     height: toolsRow.height
-        //     width: toolsRow.width / 4 - 10
-        //     radius: 15
-
-        //     }
-        // Rectangle {
-
-        //     color: "#544d3c"
-        //     border.width: 3
-        //     height: toolsRow.height
-        //     width: toolsRow.width / 4 - 10
-        //     radius: 15
-        // }
         Rectangle {
 
-            color: "#544d3c"            
+            color: "#544d3c"
+            border.color: black
+            border.width: 3
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 10
+            radius: 15
+
+            }
+        Rectangle {
+
+            color: "#544d3c"
+            border.color: black
+            border.width: 3
+            height: toolsRow.height
+            width: toolsRow.width / 4 - 10
+            radius: 15
+        }
+        Rectangle {
+
+            color: "#544d3c"
+            border.color: black
             border.width: 3
             height: toolsRow.height
             width: toolsRow.width / 4 - 10
@@ -301,7 +216,7 @@ Window {
 
 
                 Text {
-                    text: "Backround Noise"
+                    text: "Backround Ambiance"
                     anchors.verticalCenter: parent.verticalCenter
                     color: "#f9f4cc"
                     wrapMode: Text.Wrap
@@ -320,10 +235,10 @@ Window {
                 }
 
                 onClicked: {
-                    if(menuAmbiance.visible === false) {
-                        menuAmbiance.open()
+                    if(menuInterval.visible === false) {
+                        menuInterval.open()
                     } else {
-                        menuAmbiance.close()
+                        menuInterval.close()
                     }
 
                 }
@@ -499,11 +414,6 @@ Window {
 
                             }
                         }
-                        timer.onTriggered: {
-                            newWindow.min = clockItem.minutes
-                            newWindow.sec = clockItem.seconds
-                        }
-
                     }
 
 
@@ -569,7 +479,6 @@ Window {
                         lblTime.visible = true
                         menuInterval.studyTime.enabled = false
                         menuInterval.breakTime.enabled = false
-                        menuAmbiance.player.play()
 
                     }
                 }
@@ -579,7 +488,8 @@ Window {
                 id: rowButtonsStarted
                 y: 885
                 height: 132
-                visible: false                
+                visible: false
+                // anchors.top: outerClock.bottom
                 anchors.topMargin: 61
                 spacing: 50
 
@@ -601,7 +511,6 @@ Window {
                         else {
                             menuInterval.breakTime.enabled = false
                         }
-                        menuAmbiance.player.stop()
 
 
                     }
@@ -620,7 +529,6 @@ Window {
                         clockItem.timer.start()
                         menuInterval.studyTime.enabled = false
                         menuInterval.breakTime.enabled = false
-                        menuAmbiance.player.play()
 
                     }
 
@@ -640,7 +548,6 @@ Window {
                         lblTime.visible = false
                         menuInterval.studyTime.enabled = true
                         menuInterval.breakTime.enabled = true
-                        menuAmbiance.player.stop()
 
                     }
                 }
@@ -884,6 +791,8 @@ Window {
 
 
     }
+
+
 
 }
 
