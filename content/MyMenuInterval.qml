@@ -20,7 +20,9 @@ Popup {
         padding: -11
 
 
+
         Grid {
+            anchors.horizontalCenter: parent.horizontalCenter
             id: grid
            Row {
                Column {

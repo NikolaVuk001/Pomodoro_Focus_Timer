@@ -46,11 +46,13 @@ Window {
         anchors.bottom: toolsRow.top
         anchors.bottomMargin: 5
 
+
         MyMenuInterval {
             id: menuInterval
             height: parent.height
             width: parent.width / 4
             visible: false
+
             studyTime.value: clockItem.studyMin
             studyTime.onValueChanged: {
                 if(studyTime.value < 10) {
@@ -107,13 +109,12 @@ Window {
     Row {
         id: toolsRow
         y: 1021
+        width: 1306
         height: 59
-        anchors.left: parent.left
-        anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.leftMargin: 28
-        anchors.rightMargin: 642
         anchors.bottomMargin: 11
+        anchors.horizontalCenterOffset: -296
+        anchors.horizontalCenter: parent.horizontalCenter
         spacing: 5
 
 
@@ -123,7 +124,7 @@ Window {
             border.color: black
             border.width: 3
             height: toolsRow.height
-            width: toolsRow.width / 4 - 3
+            width: toolsRow.width / 4 - 10
             radius: 15
 
 
@@ -167,7 +168,7 @@ Window {
             border.color: black
             border.width: 3
             height: toolsRow.height
-            width: toolsRow.width / 4 - 3
+            width: toolsRow.width / 4 - 10
             radius: 15
         }
         Rectangle {
@@ -176,7 +177,7 @@ Window {
             border.color: black
             border.width: 3
             height: toolsRow.height
-            width: toolsRow.width / 4 - 3
+            width: toolsRow.width / 4 - 10
             radius: 15
         }
         Rectangle {
@@ -185,7 +186,7 @@ Window {
             border.color: black
             border.width: 3
             height: toolsRow.height
-            width: toolsRow.width / 4 - 3
+            width: toolsRow.width / 4 - 10
             radius: 15
 
         }
