@@ -39,22 +39,25 @@ Window {
 
     Row {
         id: row
+        x: 0
         y: 880
-        height: 200
-        anchors.left: toolsRow.left
-        anchors.right: toolsRow.right
+        width: 1306
+        height: 141
         anchors.bottom: toolsRow.top
-        anchors.bottomMargin: 5
+        anchors.bottomMargin: 0
 
         MyMenuInterval {
             id: menuInterval
+            border.color: "black"
+            border.width: 2
+            color: "transparent"
             height: parent.height
             width: parent.width / 4
             visible: false
             studyTime.value: clockItem.studyMin
             studyTime.onValueChanged: {
                 if(studyTime.value < 10) {
-                    clockItem.minutes =  "0" + studyTime.value
+                   clockItem.minutes =  "0" + studyTime.value
                 } else {
                     clockItem.minutes =  studyTime.value
                 }
@@ -102,91 +105,70 @@ Window {
         }
     }
 
-
+    Popup {
+           id: popup
+           x: 100
+           y: 100
+           width: 200
+           height: 300
+           modal: true
+           focus: true
+           closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+       }
 
     Row {
         id: toolsRow
+        x: 0
         y: 1021
+        width: 1306
         height: 59
-        anchors.left: parent.left
-        anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.leftMargin: 28
-        anchors.rightMargin: 642
-        anchors.bottomMargin: 11
-        spacing: 5
-
+        anchors.bottomMargin: 0
+        spacing: 3
 
         Rectangle {
             id: btnSetInterval
-            color: "#544d3c"
+            color: "transparent"
             border.color: black
-            border.width: 3
+            border.width: 5
             height: toolsRow.height
             width: toolsRow.width / 4 - 3
-            radius: 15
-
-
             Button {
-                id: button
                 anchors.fill: parent
-
-
-                Text {
-                    text: "Set Pomodoro Timer"
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: "#f9f4cc"
-                    wrapMode: Text.Wrap
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    textFormat: Text.StyledText
-                    font.italic: true
-                    font.bold: true
-                    font.underline: false
-                    font.pointSize: 13
-
-                }
-
-                background: Rectangle {
-                    anchors.fill: parent
-                    color: "transparent"
-                }
-
-                onClicked: {
-                    if(menuInterval.visible === false) {
-                        menuInterval.open()
-                    } else {
-                        menuInterval.close()
+                text: "Set Pomodor Interval"
+                onClicked: popup.open()/*{
+                    if(menuInterval.visible === false)
+                    {
+                        menuInterval.popUp.running = true
+                        menuInterval.popUp.onComple
+                        menuInterval.visible = true
                     }
-
-                }
+                    else {
+                        menuInterval.visible = false
+                    }
+                }*/
             }
         }
         Rectangle {
-
-            color: "#544d3c"
+            color: "transparent"
             border.color: black
-            border.width: 3
+            border.width: 5
             height: toolsRow.height
             width: toolsRow.width / 4 - 3
-            radius: 15
         }
         Rectangle {
-
-            color: "#544d3c"
+            color: "transparent"
             border.color: black
-            border.width: 3
+            border.width: 5
             height: toolsRow.height
             width: toolsRow.width / 4 - 3
-            radius: 15
         }
         Rectangle {
-
-            color: "#544d3c"
+            color: "transparent"
             border.color: black
-            border.width: 3
+            border.width: 5
             height: toolsRow.height
             width: toolsRow.width / 4 - 3
-            radius: 15
 
         }
 
@@ -250,7 +232,7 @@ Window {
                 anchors.bottomMargin: 50
                 anchors.left: outerClock.left
                 anchors.leftMargin: 250
-                onVisibleChanged: {
+                /*onTextChanged*/onVisibleChanged: {
                     if(visible === true) {
                         opacityAnimation.running = true
                     }
@@ -267,7 +249,7 @@ Window {
                     to: 1.0
                     duration: 200
                     easing.type: Easing.InOutQuad
-                    running: false
+                    running: false                    
                 }
                 NumberAnimation {
                     id: opacityAnimationOut
@@ -335,7 +317,7 @@ Window {
 
                     // Clock
                     FlipItem {
-                        id: clockItem
+                        id: clockItem                        
                         x: 563
                         width: 400
                         height: 250
