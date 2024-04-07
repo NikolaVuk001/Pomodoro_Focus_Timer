@@ -17,5 +17,9 @@ qt6_add_qml_module(content
         QML_FILES MyMenuInterval.qml
         QML_FILES MyMenuAmbiance.qml
         QML_FILES PopUpWindow.qml
+        RESOURCES Images/new_window_pop_up-512.webp Sounds/ocean-waves-1.mp3 Sounds/people-in-lounge-1.mp3 Sounds/rain-02.mp3 Sounds/tv-static-05.mp3 Images/PomodoroIcon.ico Images/TimerIcon.png
+
+
+
 
 )

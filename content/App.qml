@@ -30,7 +30,7 @@ Window {
         y: 50
         background: Image {
             id: popUpImage
-            source: "qrc:/Images/new_window_pop_up-512.webp"
+            source: "Images/new_window_pop_up-512.webp"
             anchors.fill: parent
             fillMode: Image.PreserveAspectFit
 
@@ -81,7 +81,7 @@ Window {
     SystemTrayIcon {
         id: sysTrayIcon
         visible: true
-        icon.source: "qrc:/Images/TimerIcon.png"
+        icon.source: "Images/TimerIcon.png"
 
         onActivated: {
             window.show()

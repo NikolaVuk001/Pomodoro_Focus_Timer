@@ -135,16 +135,16 @@ Popup {
                                 playAmbiance.source = "";
                                 break;
                             case 1:
-                                playAmbiance.source = "qrc:/Sounds/rain-02.mp3";
+                                playAmbiance.source = "Sounds/rain-02.mp3";
                                 break;
                             case 2:
-                                playAmbiance.source = "qrc:/Sounds/ocean-waves-1.mp3";
+                                playAmbiance.source = "Sounds/ocean-waves-1.mp3";
                                 break;
                             case 3:
-                                playAmbiance.source = "qrc:/Sounds/people-in-lounge-1.mp3";
+                                playAmbiance.source = "Sounds/people-in-lounge-1.mp3";
                                 break;
                             case 4:
-                                playAmbiance.source = "qrc:/Sounds/tv-static-05.mp3";
+                                playAmbiance.source = "Sounds/tv-static-05.mp3";
                                 break;
                             };
                             playAmbiance.play();
