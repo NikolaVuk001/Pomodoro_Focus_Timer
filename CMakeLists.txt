@@ -9,14 +9,32 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS Core Gui Qml Quick)
 
+
+
+
 if (Qt6_VERSION VERSION_GREATER_EQUAL 6.3)
     qt_standard_project_setup()
 endif()
 
+
+
+
+
+
+
+
+
+
+
 qt_add_executable(Pomodor_Qt_FrameworkApp WIN32 src/main.cpp
-    tasklist.h tasklist.cpp
-    task.h task.cpp
-    json_converter.h json_converter.cpp
+    CppClasses/tasklist.h CppClasses/tasklist.cpp
+    CppClasses/task.h CppClasses/task.cpp
+    CppClasses/json_converter.h CppClasses/json_converter.cpp
+    CppClasses/focustimer.h CppClasses/focustimer.cpp
+
+
+
+
 
 
 )
@@ -32,6 +50,7 @@ target_link_libraries(Pomodor_Qt_FrameworkApp PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+
 )
 
 if (BUILD_QDS_COMPONENTS)

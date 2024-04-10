@@ -1,0 +1,274 @@
+import QtQuick 2.15
+import QtQuick.Controls
+
+
+
+Rectangle {
+    id: root
+
+
+    anchors {
+        top: timer.bottom
+        bottom: optionsBar.top
+
+        topMargin: 40
+        bottomMargin: 40
+        horizontalCenter: parent.horizontalCenter
+    }
+    color: "red"
+    width: 500 // ???
+
+
+
+    Rectangle {
+        id: rowBtnDefault
+        anchors.fill: parent
+        color: "transparent"
+        visible: true
+
+
+        ControlButton {
+            id: btnStart
+            height: 75
+            width: 200
+            text: "Start"
+
+            anchors.centerIn: parent
+
+
+            onClicked: {
+                focusTimer.startTimer();
+                // clockItem.timer.start()
+                // rowButtonsDefault.visible = false
+                // rowButtonsStarted.visible = true
+                // clockItem.state = "StudyTime"
+                // lblTime.visible = true
+                // menuInterval.studyTime.enabled = false
+                // menuInterval.breakTime.enabled = false
+                // menuAmbiance.player.play()
+
+            }
+        }
+
+    }
+
+    Rectangle {
+        id: rowButtonsStarted
+        anchors.fill: parent
+        color: "transparent"
+        visible: false
+
+        ControlButton {
+            id: btnPause
+            visible: true
+            text: "Pause"
+            height: 75
+            width: 200
+
+            anchors {
+                centerIn: parent
+                horizontalCenterOffset: -125
+            }
+
+        }
+        ControlButton {
+            id: btnResume
+            visible: btnPause.visible ? false : true
+            text: "Resume"
+            height: 75
+            width: 200
+            anchors {
+                centerIn: parent
+                horizontalCenterOffset: -125
+            }
+
+        }
+        ControlButton {
+            id: btnStop
+            text: "Stop"
+            height: 75
+            width: 200
+            anchors {
+                centerIn: parent
+                horizontalCenterOffset: 125
+            }
+
+        }
+    }
+
+    //     id: rowButtonsStarted
+    //     y: 885
+    //     height: 132
+    //     visible: false
+    //     anchors.topMargin: 61
+    //     spacing: 50
+
+
+    //     MyButton {
+    //         id: btnPause
+    //         text: "Pause"
+    //         width: 200
+    //         height: 75
+    //         visible: true
+    //         onClicked: {
+    //             btnPause.visible = false
+    //             btnResume.visible = true
+    //             clockItem.timer.stop()
+    //             menuInterval.studyTime.enabled = false
+    //             if(clockItem.state === "StudyTime") {
+    //                 menuInterval.breakTime.enabled = true
+    //             }
+    //             else {
+    //                 menuInterval.breakTime.enabled = false
+    //             }
+    //             menuAmbiance.player.stop()
+
+
+    //         }
+
+    //     }
+
+    //     MyButton {
+    //         id: btnResume
+    //         text: "Resume"
+    //         visible: false
+    //         width: 200
+    //         height: 75
+    //         onClicked: {
+    //             btnResume.visible = false
+    //             btnPause.visible = true
+    //             clockItem.timer.start()
+    //             menuInterval.studyTime.enabled = false
+    //             menuInterval.breakTime.enabled = false
+    //             menuAmbiance.player.play()
+
+    //         }
+
+    //     }
+
+    //     MyButton {
+    //         id: btnStop
+    //         text: "Stop"
+    //         width: 200
+    //         height: 75
+    //         onClicked: {
+    //             menuInterval.studyTime.valueChanged()
+    //             clockItem.seconds = "00"
+    //             clockItem.timer.stop()
+    //             rowButtonsDefault.visible = true
+    //             rowButtonsStarted.visible = false
+    //             lblTime.visible = false
+    //             menuInterval.studyTime.enabled = true
+    //             menuInterval.breakTime.enabled = true
+    //             menuAmbiance.player.stop()
+
+    //         }
+    //     }
+    //     anchors.horizontalCenter: outerClock.horizontalCenter
+    // }
+}
+
+
+// Row {
+//     id: rowButtonsDefault
+//     y: 885
+//     height: 132
+//     visible: true
+//     anchors.top: outerClock.bottom
+//     anchors.topMargin: 61
+//     anchors.horizontalCenter: outerClock.horizontalCenter
+//     spacing: 50
+
+
+
+//     MyButton {
+//         id: btnStart
+//         height: 75
+//         width: 200
+//         onClicked: {
+//             clockItem.timer.start()
+//             rowButtonsDefault.visible = false
+//             rowButtonsStarted.visible = true
+//             clockItem.state = "StudyTime"
+//             lblTime.visible = true
+//             menuInterval.studyTime.enabled = false
+//             menuInterval.breakTime.enabled = false
+//             menuAmbiance.player.play()
+
+//         }
+//     }
+// }
+
+// Row {
+//     id: rowButtonsStarted
+//     y: 885
+//     height: 132
+//     visible: false
+//     anchors.topMargin: 61
+//     spacing: 50
+
+
+//     MyButton {
+//         id: btnPause
+//         text: "Pause"
+//         width: 200
+//         height: 75
+//         visible: true
+//         onClicked: {
+//             btnPause.visible = false
+//             btnResume.visible = true
+//             clockItem.timer.stop()
+//             menuInterval.studyTime.enabled = false
+//             if(clockItem.state === "StudyTime") {
+//                 menuInterval.breakTime.enabled = true
+//             }
+//             else {
+//                 menuInterval.breakTime.enabled = false
+//             }
+//             menuAmbiance.player.stop()
+
+
+//         }
+
+//     }
+
+//     MyButton {
+//         id: btnResume
+//         text: "Resume"
+//         visible: false
+//         width: 200
+//         height: 75
+//         onClicked: {
+//             btnResume.visible = false
+//             btnPause.visible = true
+//             clockItem.timer.start()
+//             menuInterval.studyTime.enabled = false
+//             menuInterval.breakTime.enabled = false
+//             menuAmbiance.player.play()
+
+//         }
+
+//     }
+
+//     MyButton {
+//         id: btnStop
+//         text: "Stop"
+//         width: 200
+//         height: 75
+//         onClicked: {
+//             menuInterval.studyTime.valueChanged()
+//             clockItem.seconds = "00"
+//             clockItem.timer.stop()
+//             rowButtonsDefault.visible = true
+//             rowButtonsStarted.visible = false
+//             lblTime.visible = false
+//             menuInterval.studyTime.enabled = true
+//             menuInterval.breakTime.enabled = true
+//             menuAmbiance.player.stop()
+
+//         }
+//     }
+//     anchors.horizontalCenter: outerClock.horizontalCenter
+// }
+
+
