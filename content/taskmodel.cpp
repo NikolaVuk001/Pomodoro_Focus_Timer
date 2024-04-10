@@ -1,7 +1,8 @@
 #include "taskmodel.h"
-#include "../tasklist.h"
+#include "../CppClasses/tasklist.h"
 #include <QSharedPointer>
-#include "../task.h"
+#include "../CppClasses/task.h"
+
 
 TaskModel::TaskModel(QObject *parent)
     : QAbstractListModel(parent), m_List(nullptr)

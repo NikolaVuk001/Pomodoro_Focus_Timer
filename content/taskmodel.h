@@ -3,7 +3,8 @@
 
 #include <QAbstractListModel>
 #include <QSharedPointer>
-#include "../tasklist.h"
+
+#include "../CppClasses/tasklist.h"
 
 
 

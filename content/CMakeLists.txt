@@ -10,14 +10,35 @@ qt6_add_qml_module(content
         App.qml
     RESOURCES
         fonts/fonts.txt
-        QML_FILES FlipItem.qml
-        QML_FILES MyButton.qml
+        QML_FILES
+        QML_FILES
         QML_FILES
         SOURCES taskmodel.h taskmodel.cpp
-        QML_FILES MyMenuInterval.qml
-        QML_FILES MyMenuAmbiance.qml
-        QML_FILES PopUpWindow.qml
-        RESOURCES Images/new_window_pop_up-512.webp Sounds/ocean-waves-1.mp3 Sounds/people-in-lounge-1.mp3 Sounds/rain-02.mp3 Sounds/tv-static-05.mp3 Images/PomodoroIcon.ico Images/TimerIcon.png
+        QML_FILES Components/LeftScreen/OptionsBar/MenuInterval.qml
+        QML_FILES Components/LeftScreen/OptionsBar/MenuAmbiance.qml
+        QML_FILES
+        QML_FILES Components/PomodoroText/PomodoroText.qml
+        QML_FILES Components/PomodoroButton/PomodoroButton.qml
+        QML_FILES Components/TaskList/TaskList.qml
+        QML_FILES Components/LeftScreen/LeftScreen.qml
+        QML_FILES Components/LeftScreen/OptionsBar/OptionsBar.qml
+        QML_FILES Components/LeftScreen/OptionsBar/OptionButton.qml
+        QML_FILES Components/LeftScreen/PomodoroTimer/PomodoroTimer.qml
+        QML_FILES Components/LeftScreen/PomodoroTimer/DigitComponent.qml
+        QML_FILES Components/LeftScreen/TimerControls/TimerControls.qml
+        QML_FILES Components/LeftScreen/TimerControls/ControlButton.qml
+        QML_FILES Components/LeftScreen/StateLabel/StateLabel.qml
+        QML_FILES Components/LeftScreen/PopUpWindowButton/PopUpWindowButton.qml
+        RESOURCES Images/new_window_pop_up-512.webp
+        QML_FILES Components/PopUpWindow/PopUpWindow.qml
+        RESOURCES Images/TimerIcon.png
+        RESOURCES Sounds/ocean-waves.mp3
+        RESOURCES Sounds/rain.mp3
+        RESOURCES Sounds/lounge.mp3 Sounds/Static-Noise.mp3
+
+
+
+
 
 
 
