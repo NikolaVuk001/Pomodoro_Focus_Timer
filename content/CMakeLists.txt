@@ -32,9 +32,8 @@ qt6_add_qml_module(content
         RESOURCES Images/new_window_pop_up-512.webp
         QML_FILES Components/PopUpWindow/PopUpWindow.qml
         RESOURCES Images/TimerIcon.png
-        RESOURCES Sounds/ocean-waves.mp3
-        RESOURCES Sounds/rain.mp3
-        RESOURCES Sounds/lounge.mp3 Sounds/Static-Noise.mp3
+        RESOURCES Sounds/ocean-waves.mp3 Sounds/lounge.mp3 Sounds/Static-Noise.mp3 Sounds/rain.mp3
+
 
 
 

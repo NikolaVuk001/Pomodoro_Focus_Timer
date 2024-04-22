@@ -34,11 +34,23 @@ Window {
 
         width: 55
         height: 65
-        x: newWindow.width - width - 7
+        x: newWindow.width - width - 7        
+
         y: 0
         z: 2
-        text: "X"
-        font.pointSize: 20
+        Image {
+            id: popUpImg
+            source: "../../Images/new_window_pop_up-512.webp"
+            fillMode: Image.PreserveAspectFit
+            anchors {
+                fill: parent
+                margins: 6
+            }
+
+
+
+        }
+        // font.pointSize: 20
 
         onClicked: {
             newWindow.close()

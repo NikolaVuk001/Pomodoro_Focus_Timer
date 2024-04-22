@@ -67,6 +67,31 @@ Rectangle {
         }
     }
 
+    OptionButton {
+        id: btnCalendar
+        btnText: "Backround Noise"
+        anchors {
+            bottom: parent.bottom
+            top: parent.top
+            right: parent.right
+            left: btnSetInterval.right
+            bottomMargin: 10
+            topMargin: 10
+            rightMargin: parent.width / 4
+            leftMargin: 10
+        }
+        width: parent.width / 4
+
+        btn.onClicked: {
+            if(menuAmbiance.visible === false) {
+                menuAmbiance.open()
+            } else {
+                menuAmbiance.close()
+            }
+
+        }
+    }
+
     Rectangle {
         id: popUpMenus
         color: "transparent"
